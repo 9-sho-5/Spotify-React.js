@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { IoLibrary } from "react-icons/io5";
 import { MdHomeFilled, MdSearch } from "react-icons/md"
+import Playlists from './Playlists';
 
 const Container = styled.div`
     background-color: black;
@@ -53,7 +54,7 @@ function Sidebar() {
             <ul>
                 <li>
                     <MdHomeFilled />
-                    <span>HOME</span>
+                    <span>Home</span>
                 </li>
                 <li>
                     <MdSearch />
@@ -65,6 +66,7 @@ function Sidebar() {
                 </li>
             </ul>
         </div>
+        <Playlists />
     </Container>
   )
 }

@@ -31,6 +31,7 @@ function Login() {
     const redirectUrl = process.env.REACT_APP_REDIRECT_URI;
     const apiUrl = process.env.REACT_APP_API_URL;
     const scope = [
+      'playlist-read-private',
       'user-read-email',
       'user-read-private',
       'user-modify-playback-state',

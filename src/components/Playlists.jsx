@@ -2,6 +2,26 @@ import React, { useEffect } from 'react'
 import { useStateProvider } from "../utils/StateProvider"
 import axios from 'axios'
 import { reducerCases } from '../utils/Constants';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    li{
+        display: flex;
+        gap: 1rem;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+        &:hover{
+            color: white;
+        }
+    }
+  }
+`;
 
 function Playlists() {
   const [{ token, playlists }, dispatch ] = useStateProvider();
@@ -31,17 +51,15 @@ function Playlists() {
     getPlayListData();
   }, [ token, dispatch ]);
   return (
-    <div>
+    <Container>
       <ul>
         {
-          playlists.map(({ name, id }) => {
-            return (
-              <li key={ id }>{ name }</li>
-            )
-          })
+         playlists.map(({ name, id }) => {
+          return <li key={ id }>{name}</li>
+         })
         }
       </ul>
-    </div>
+    </Container>
   )
 }
 

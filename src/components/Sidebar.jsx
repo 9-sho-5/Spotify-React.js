@@ -1,10 +1,15 @@
 import React from 'react'
+import styled from 'styled-components'
+
+const Container = styled.div`
+    background-color: black;
+`;
 
 function Sidebar() {
   return (
-    <div>
-      sidebar
-    </div>
+    <Container>
+        SideBar
+    </Container>
   )
 }
 

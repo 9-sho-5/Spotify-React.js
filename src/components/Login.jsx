@@ -25,10 +25,33 @@ const Container = styled.div`
 `;
 
 function Login() {
+
+  const handleClick = () => {
+    const clientId = process.env.REACT_APP_CLIENT_ID;
+    const redirectUrl = process.env.REACT_APP_REDIRECT_URI;
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const scope = [
+      'user-read-email',
+      'user-read-private',
+      'user-modify-playback-state',
+      'user-read-playback-state',
+      'user-read-currently-playing',
+      'user-read-recently-played',
+      'user-read-playback-position',
+      'user-top-read',
+    ];
+
+    window.location.href = `${apiUrl}?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scope.join(
+      " "
+    )}&response_type=token&show_daialog=true`;
+  };
+
   return (
     <Container>
       <img src="https://storage.googleapis.com/spotifynewsroom-jp.appspot.com/1/2020/12/Spotify_Logo_CMYK_Black.png" alt="spotify" />
-      <button>Connect Spotify</button>
+      <button
+        onClick={handleClick}
+      >Connect Spotify</button>
     </Container>
   )
 }

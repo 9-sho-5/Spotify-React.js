@@ -14,7 +14,6 @@ function Playlists() {
         'https://api.spotify.com/v1/me/playlists',
         // Current User's Playlists
         // 'https://api.spotify.com/v1/me/playlists',
-        
         {
           headers: {
             Authorization: "Bearer " + token,

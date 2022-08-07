@@ -13,7 +13,7 @@ const Container = styled.div`
     position: sticky;
     top: 0;
     transition: 0.3s ease-in-out;
-    background-color: none;
+    background-color: ${({ navBackGround }) => navBackGround ? "rgba(0, 0, 0, 0.7)": "none"};
     .search__bar {
         background-color: white;
         width: 30%;
@@ -57,10 +57,10 @@ const Container = styled.div`
     }
 `;
 
-function Navbar() {
+function Navbar({ navBackGround }) {
     const [{ userInfo } ] = useStateProvider();
     return (
-        <Container>
+        <Container navBackGround={ navBackGround }>
             <div className="search__bar">
                 <FaSearch />
                 <input type="text" placeholder='Artists, songs, or podcasts'/>

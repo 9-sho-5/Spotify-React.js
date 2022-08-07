@@ -5,12 +5,23 @@ import { reducerCases } from '../utils/Constants';
 import styled from 'styled-components';
 
 const Container = styled.div`
+  height: 100%;
+  overflow: hidden;
   ul{
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
+    height: 52vh;
+    max-height: 100%;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 0.7rem;
+      &-thumb{
+        background-color: rgba(255, 255, 255, 0.6);
+      }
+    }
     li{
         display: flex;
         gap: 1rem;
@@ -50,13 +61,22 @@ function Playlists() {
     };
     getPlayListData();
   }, [ token, dispatch ]);
+  // const showPlaylists = () => {
+  //   if (!playlists) {
+  //     console.log(playlists);
+  //     return null;
+  //   }
+  //    playlists.map(({ name, id }) => {
+  //     return <li key={ id }>{name}</li>
+  //    })
+  // }
   return (
     <Container>
       <ul>
         {
-         playlists.map(({ name, id }) => {
-          return <li key={ id }>{name}</li>
-         })
+          playlists.map(({ name, id }) => {
+            return <li key={ id }>{name}</li>
+          })
         }
       </ul>
     </Container>

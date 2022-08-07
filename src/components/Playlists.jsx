@@ -41,10 +41,8 @@ function Playlists() {
       const response = await axios.get(
         // TOP 50 JPop
         // 'https://api.spotify.com/v1/playlists/37i9dQZEVXbKXQ4mDTEBXq',
-        // User Info
+        // urrent User's Playlists
         'https://api.spotify.com/v1/me/playlists',
-        // Current User's Playlists
-        // 'https://api.spotify.com/v1/me/playlists',
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -61,15 +59,6 @@ function Playlists() {
     };
     getPlayListData();
   }, [ token, dispatch ]);
-  // const showPlaylists = () => {
-  //   if (!playlists) {
-  //     console.log(playlists);
-  //     return null;
-  //   }
-  //    playlists.map(({ name, id }) => {
-  //     return <li key={ id }>{name}</li>
-  //    })
-  // }
   return (
     <Container>
       <ul>

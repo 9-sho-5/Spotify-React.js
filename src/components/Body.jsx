@@ -104,11 +104,15 @@ function Body({ headerBackground }) {
           track_number: track.track_number,
         }))
       }
-      console.log(selectedPlaylist)
       dispatch({ type: reducerCases.SET_PLAYLIST, selectedPlaylist })
     }
     getInitialPlaylist();
   }, [ token, dispatch, selectedPlaylistId ])
+  const msToMinutesAndSeconds = ( ms ) => {
+    const minutes = Math.floor( ms / 60000 );
+    const seconds = (( ms % 60000) / 1000).toFixed(0);
+    return minutes + ":" + ( seconds < 10 ? "0" : "") + seconds;
+  }
   return (
     <Container headerBackground={ headerBackground }>
       {
@@ -120,8 +124,8 @@ function Body({ headerBackground }) {
               </div>
               <div className="details">
                 <span className="type">PLAYLIST</span>
-                <h1 className="title">{selectedPlaylist.name}</h1>
-                <p className="description">{selectedPlaylist.description}</p>
+                <h1 className="title">{ selectedPlaylist.name }</h1>
+                <p className="description">{ selectedPlaylist.description }</p>
               </div>
             </div>
             <div className="list">
@@ -171,7 +175,7 @@ function Body({ headerBackground }) {
                           <span>{ album }</span>
                         </div>
                         <div className="col">
-                          <span>{ duration }</span>
+                          <span>{ msToMinutesAndSeconds( duration ) }</span>
                         </div>
                       </div>
                     )

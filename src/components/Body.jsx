@@ -48,6 +48,7 @@ const Container = styled.div`
         padding: 0.5rem 1rem;
         display: grid;
         grid-template-columns: 0.3fr 3.1fr 2fr 0.1fr;
+        cursor: pointer;
         &:hover{
           background-color: rgba(0, 0, 0, 0.7);
         }

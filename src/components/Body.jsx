@@ -48,6 +48,7 @@ const Container = styled.div`
         padding: 0.5rem 1rem;
         display: grid;
         grid-template-columns: 0.3fr 3.1fr 2fr 0.1fr;
+        cursor: pointer;
         &:hover{
           background-color: rgba(0, 0, 0, 0.7);
         }
@@ -77,34 +78,36 @@ function Body({ headerBackground }) {
 
   useEffect(() => {
     const getInitialPlaylist = async () => {
-      const response = await axios.get(
-        `https://api.spotify.com/v1/playlists/${selectedPlaylistId}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
+      if( selectedPlaylistId != null ){
+        const response = await axios.get(
+          `https://api.spotify.com/v1/playlists/${selectedPlaylistId}`,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const selectedPlaylist = {
+          id: response.data.id,
+          name: response.data.name,
+          description: response.data.description.startsWith("<a")
+            ? ""
+            : response.data.description,
+          image: response.data.images[0].url,
+          tracks: response.data.tracks.items.map(({ track }) => ({
+            id: track.id,
+            name: track.name,
+            artists: track.artists.map(( artist ) => artist.name ),
+            image: track.album.images[2].url,
+            duration: track.duration_ms,
+            album: track.album.name,
+            context_uri: track.album.uri,
+            track_number: track.track_number,
+          }))
         }
-      );
-      const selectedPlaylist = {
-        id: response.data.id,
-        name: response.data.name,
-        description: response.data.description.startsWith("<a")
-          ? ""
-          : response.data.description,
-        image: response.data.images[0].url,
-        tracks: response.data.tracks.items.map(({ track }) => ({
-          id: track.id,
-          name: track.name,
-          artists: track.artists.map(( artist ) => artist.name ),
-          image: track.album.images[2].url,
-          duration: track.duration_ms,
-          album: track.album.name,
-          context_url: track.album.uri,
-          track_number: track.track_number,
-        }))
+        dispatch({ type: reducerCases.SET_PLAYLIST, selectedPlaylist })
       }
-      dispatch({ type: reducerCases.SET_PLAYLIST, selectedPlaylist })
     }
     getInitialPlaylist();
   }, [ token, dispatch, selectedPlaylistId ])
@@ -112,6 +115,34 @@ function Body({ headerBackground }) {
     const minutes = Math.floor( ms / 60000 );
     const seconds = (( ms % 60000) / 1000).toFixed(0);
     return minutes + ":" + ( seconds < 10 ? "0" : "") + seconds;
+  }
+
+  const playTrack = async ( id, name, artists, image, context_uri, track_number ) => {
+    const response = await axios.put(
+      `https://api.spotify.com/v1/me/player/play`,
+      {
+        context_uri,
+        offset: {
+          position: track_number - 1,
+        },
+        position_ms: 0,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if( response.status === 204 ){
+      const currentlyPlaying = {
+        id, name, artists, image,
+      }
+      dispatch({ type: reducerCases.SET_CUTTENTLY_PLAYING, currentlyPlaying })
+      dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true })
+    } else {
+      dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true })
+    }
   }
   return (
     <Container headerBackground={ headerBackground }>
@@ -158,7 +189,7 @@ function Body({ headerBackground }) {
                     track_number
                   }, index) => {
                     return (
-                      <div className="row" key={ id }>
+                      <div className="row" key={ id } onClick={() => playTrack( id, name, artists, image, context_uri, track_number )}>
                         <div className="col">
                           <span>{ index + 1 }</span>
                         </div>

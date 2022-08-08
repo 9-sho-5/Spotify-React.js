@@ -5,12 +5,35 @@ import { useStateProvider } from "../utils/StateProvider"
 
 const Container = styled.div`
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    input{
-        width: 15rem;
-        border-radius: 2rem;
-        height: 0%,5rem;
+    input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: rgba(255, 255, 255, .7);
+        height: 2px;
+        max-width: 100px;
+        width: 100%;
+        border-radius: 6px;
+
+        &:focus,
+        &:active {
+            outline: none;
+        }
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+            width: 15px;
+            height: 15px;
+            display: block;
+            border: 1px solid #717171;
+            background-color: #fff;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+        }
     }
 `;
 
